@@ -103,3 +103,5 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+// complete frontend of signup form
