@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const xlsx = require("xlsx");
 const Income = require("../models/Income");
 
 exports.addIncome = async (req, res) => {
@@ -30,8 +30,52 @@ exports.addIncome = async (req, res) => {
   }
 };
 
-exports.getAllIncomes = async (req, res) => {};
+exports.getAllIncomes = async (req, res) => {
+  const userId = req.user._id;
 
-exports.deleteIncome = async (req, res) => {};
+  try {
+    const incomes = await Income.find({ userId }).sort({ date: -1 });
+    res.status(200).json(incomes);
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+    });
+  } 
+};
 
-exports.downloadIncomeExcel = async (req, res) => {};
+exports.deleteIncome = async (req, res) => {
+
+  try {
+    await Income.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Income deleted successfully" });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+    });
+  }
+};
+
+exports.downloadIncomeExcel = async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const incomes = await Income.find({ userId }).sort({ date: -1 });
+
+    // Prepare data for Excel export
+    const data = incomes.map((item) => ({
+      Source: item.source,
+      Amount: item.amount,
+      Date: item.date, // Format date as YYYY-MM-DD
+      // Icon: income.icon,
+    }));
+
+    const wb = xlsx.utils.book_new();
+    const ws = xlsx.utils.json_to_sheet(data);
+    xlsx.utils.book_append_sheet(wb, ws, "Incomes");
+    xlsx.writeFile(wb, "income_details.xlsx");
+    res.download("income_details.xlsx");
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+    })} 
+};
