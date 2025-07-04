@@ -1,33 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import Input from "../../components/Inputs/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils/helper";
 import ProfilePhotoSelector from "../../components/Inputs/ProfilePhotoSelector";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
+import uploadImage from "../../utils/uploadImage";
+import { UserContext } from  "../../context/userContext";
+
 
 const SignUp = () => {
   const [profilepic, setProfilepic] = useState(null);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [error, setError] = useState("");
+
+  const { updateUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
-  //handle signup form submit
   const handleSignUp = async (e) => {
     e.preventDefault();
 
     let profileImageUrl = "";
-    
-    if(!fullName) {
+
+    if (!fullName) {
       setError("Please enter your full name");
-        return;
+      return;
     }
 
     if (!validateEmail(email)) {
-      setError("Please Enter a valid email");
+      setError("Please enter a valid email");
       return;
     }
 
@@ -35,9 +40,39 @@ const SignUp = () => {
       setError("Please enter the password");
       return;
     }
+
     setError("");
 
-    //signup API call
+    try {
+      if (profilepic) {
+        const imgUploadRes = await uploadImage(profilepic);
+        profileImageUrl = imgUploadRes.imageUrl || "";
+      }
+
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        fullName,
+        email,
+        password,
+        profileImageUrl,
+      });
+
+      const { token, user } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        // console.log("User registered successfully:", user);
+        updateUser(user);
+        // console.log("User context updated:", user);
+        navigate("/dashboard");
+        // console.log("Navigating to dashboard");
+      }
+    } catch (err) {
+      if (err.response && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Something went wrong, please try again later");
+      }
+    }
   };
 
   return (
@@ -49,11 +84,7 @@ const SignUp = () => {
         </p>
 
         <form onSubmit={handleSignUp}>
-
-            <ProfilePhotoSelector
-              image={profilepic}
-                setImage={setProfilepic}
-            />
+          <ProfilePhotoSelector image={profilepic} setImage={setProfilepic} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
@@ -71,6 +102,7 @@ const SignUp = () => {
               placeholder="john@gmail.com"
               type="text"
             />
+
             <div className="col-span-2">
               <Input
                 value={password}
@@ -80,20 +112,18 @@ const SignUp = () => {
                 type="password"
               />
             </div>
-
-            
           </div>
-          {error && (
-            <p className="text-red-500 text-xs pb-2.5">{error}</p>
-          )}
+
+          {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
 
           <button type="submit" className="btn-primary">
             Sign Up
-            </button>
-            <p className="text-[13px] text-slate-800 mt-3">
+          </button>
+
+          <p className="text-[13px] text-slate-800 mt-3">
             Already have an account?{" "}
             <Link className="font-medium text-primary underline" to="/login">
-                Login
+              Login
             </Link>
           </p>
         </form>
@@ -103,5 +133,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-// complete frontend of signup form
