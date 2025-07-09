@@ -20,10 +20,11 @@ const CustomBarChart = ({ data }) => {
 
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
+      const lable = payload[0].payload.category || payload[0].payload.source || "";;
       return (
         <div className="bg-white shadow-md rounded-lg p-2 border border-gray-300">
           <p className="text-xs font-semibold text-purple-800 mb-1">
-            {payload[0].payload.category}
+            {lable}
           </p>
           <p className="text-sm text-gray-600">
             Amount:{" "}
@@ -43,8 +44,8 @@ const CustomBarChart = ({ data }) => {
         <BarChart data={data}>
           <CartesianGrid stroke="none" />
          
-          <XAxis dataKey="category" tick={{ fontSize: 12, fill: "#555" }} stroke="none" />
-
+          <XAxis dataKey={(data[0]?.category !== undefined) ? "category" : "month"} tick={{ fontSize: 12, fill: "#555" }} stroke="none" />
+//category
           <YAxis tick={{ fontSize: 12, fill: "#555" }} stroke="none" />
 
           <Tooltip content={CustomTooltip} />
