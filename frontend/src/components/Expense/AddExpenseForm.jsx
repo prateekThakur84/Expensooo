@@ -31,14 +31,14 @@ const AddExpenseForm = ({ onAddExpense }) => {
         value={expense.amount}
         onChange={({ target }) => handleChange("amount", target.value)}
         label="Amount"
-        placeholder=""
+        placeholder="e.g. 5000"
         type="number"
       />
       <Input
         value={expense.date}
         onChange={({ target }) => handleChange("date", target.value)}
         label="Date"
-        placeholder=""
+        placeholder="Select Date"
         type="date"
       />
 

@@ -48,7 +48,7 @@ const AddIncomeForm = ({ onAddIncome }) => {
           value={income.date}
           onChange={({ target }) => handleChange("date", target.value)}
           label="Date"
-          placeholder=""
+          placeholder="Select Date"
           type="date"
         />
       </div>

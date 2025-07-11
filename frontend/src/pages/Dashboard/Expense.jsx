@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import AddExpenseForm from "../../components/Expense/AddExpenseForm";
 import ExpenseList from "../../components/Expense/ExpenseList";
 import DeleteAlert from "../../components/DeleteAlert";
-import noData from "../../assets/NoData.png";
+import noData from "../../assets/new.png";
 import Loading from "../../components/Loading";
 
 const Expense = () => {
