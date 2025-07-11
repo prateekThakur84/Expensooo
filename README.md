@@ -3,7 +3,7 @@
 
 **Expenso** is a modern, full-stack personal finance tracking application built with the MERN stack. It helps users **track income and expenses**, **visualize financial data**, and **download insightful reports** — all through a secure, fast, and responsive interface.
 
-From **interactive charts** and **Excel exports** to **receipt uploads** and **offline support**, Expenso makes managing finances simple, visual, and accessible.
+From **interactive charts** and **Excel exports** to **receipt uploads**, Expenso makes managing finances simple, visual, and accessible.
 
 ---
 
