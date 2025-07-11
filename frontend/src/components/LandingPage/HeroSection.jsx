@@ -2,15 +2,12 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import heroImg from "../../assets/finance-hero.png";
 import { FaWallet } from "react-icons/fa";
-import { UserContext } from "../../context/userContext"; // Adjust path if needed
-
+import { UserContext } from "../../context/userContext";
 const HeroSection = () => {
   const navigate = useNavigate();
 
-  // Option 1: Using context (preferred if available)
   const { user } = useContext(UserContext);
 
-  // Option 2 (fallback): check token directly
   const isAuthenticated = user || localStorage.getItem("token");
 
   return (
