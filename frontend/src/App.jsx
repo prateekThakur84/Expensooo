@@ -15,6 +15,7 @@ import Home from "./pages/Dashboard/Home";
 import Income from "./pages/Dashboard/Income";
 import Expense from "./pages/Dashboard/Expense";
 import UserProvider from "./context/userContext";
+import LandingPage from "./pages/LandingPage/LandingPage";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Router>
           <Routes>
             <Route path="/" element={<Root />} />
+            <Route path="/LandingPage" exact element={<LandingPage />} />
             <Route path="/login" exact element={<Login />} />
             <Route path="/signup" exact element={<SignUp />} />
             <Route path="/dashboard" exact element={<Home />} />
@@ -54,6 +56,6 @@ const Root = () => {
   return isAuthenticated ? (
     <Navigate to="/dashboard" />
   ) : (
-    <Navigate to="/login" />
+    <Navigate to="/LandingPage" />
   );
 };

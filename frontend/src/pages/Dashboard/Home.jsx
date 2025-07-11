@@ -6,6 +6,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import InfoCard from "../../components/Cards/InfoCard";
 import { addThousandSeparator } from "../../utils/helper";
+import noData from "../../assets/NoData.png";
 
 import { IoMdCard } from "react-icons/io";
 import { LuHandCoins, LuWalletMinimal } from "react-icons/lu";
@@ -15,6 +16,7 @@ import ExpenseTransactions from "../../components/Dashboard/ExpenseTransactions"
 import Last30DaysExpenses from "../../components/Dashboard/Last30DaysExpenses";
 import RecentIncomeWithChart from "../../components/Charts/RecentIncomeWithChart";
 import RecentIncome from "../../components/Dashboard/RecentIncome";
+import Loading from "../../components/Loading";
 
 const Home = () => {
   useUserAuth();
@@ -22,6 +24,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const [dashboardData, setDashboardData] = useState(null);
+
   const [loading, setLoading] = useState(false);
 
   const fetchDashboardData = async () => {
@@ -46,6 +49,15 @@ const Home = () => {
     }
   };
 
+  const isDataEmpty =
+    !dashboardData ||
+    (dashboardData.totalBalance === 0 &&
+      dashboardData.totalIncome === 0 &&
+      dashboardData.totalExpense === 0 &&
+      dashboardData.recentTransactions?.length === 0 &&
+      dashboardData.last30DaysExpenses?.transactions?.length === 0 &&
+      dashboardData.last60DaysIncome?.transactions?.length === 0);
+
   useEffect(() => {
     fetchDashboardData();
 
@@ -54,62 +66,102 @@ const Home = () => {
 
   return (
     <DashboardLayout activeMenu="Dashboard">
-      <div className="my-5 mx-auto ">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-          <InfoCard
-            icon={<IoMdCard />}
-            label="Total Balance"
-            value={addThousandSeparator(dashboardData?.totalBalance || 0)}
-            color="bg-primary"
-          />
-          <InfoCard
-            icon={<LuWalletMinimal />}
-            label="Total Income"
-            value={addThousandSeparator(dashboardData?.totalIncome || 0)}
-            color="bg-orange-500"
-          />
-          <InfoCard
-            icon={<LuHandCoins />}
-            label="Total Expense"
-            value={addThousandSeparator(dashboardData?.totalExpense || 0)}
-            color="bg-red-500"
-          />
-        </div>
+      <div className="my-5 mx-auto">
+        {loading ? (
+          <Loading />
+        ) : !isDataEmpty ? (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+              <InfoCard
+                icon={<IoMdCard />}
+                label="Total Balance"
+                value={addThousandSeparator(dashboardData?.totalBalance || 0)}
+                color="bg-primary"
+              />
+              <InfoCard
+                icon={<LuWalletMinimal />}
+                label="Total Income"
+                value={addThousandSeparator(dashboardData?.totalIncome || 0)}
+                color="bg-orange-500"
+              />
+              <InfoCard
+                icon={<LuHandCoins />}
+                label="Total Expense"
+                value={addThousandSeparator(dashboardData?.totalExpense || 0)}
+                color="bg-red-500"
+              />
+            </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-          <RecentTransactions
-            RecentTransactions={dashboardData?.recentTransactions}
-            onSeeMore={() => navigate("/expense")}
-          />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+              <RecentTransactions
+                RecentTransactions={dashboardData?.recentTransactions}
+                onSeeMore={() => navigate("/expense")}
+              />
 
-          <FinanceOverview
-            totalBalance={dashboardData?.totalBalance || 0}
-            totalIncome={dashboardData?.totalIncome || 0}
-            totalExpense={dashboardData?.totalExpense || 0}
-          />
+              <FinanceOverview
+                totalBalance={dashboardData?.totalBalance || 0}
+                totalIncome={dashboardData?.totalIncome || 0}
+                totalExpense={dashboardData?.totalExpense || 0}
+              />
 
-          <ExpenseTransactions
-            transactions={dashboardData?.last30DaysExpenses?.transactions || []}
-            onSeeMore={() => {
-              navigate("/expense");
-            }}
-          />
+              <ExpenseTransactions
+                transactions={
+                  dashboardData?.last30DaysExpenses?.transactions || []
+                }
+                onSeeMore={() => {
+                  navigate("/expense");
+                }}
+              />
 
-          <Last30DaysExpenses
-            data={dashboardData?.last30DaysExpenses?.transactions || []}
-          />
-          <RecentIncomeWithChart
-            data={
-              dashboardData?.last60DaysIncome?.transactions.slice(0, 4) || []
-            }
-            totalIncome={dashboardData?.totalIncome || 0}
-          />
+              <Last30DaysExpenses
+                data={dashboardData?.last30DaysExpenses?.transactions || []}
+              />
+              <RecentIncomeWithChart
+                data={
+                  dashboardData?.last60DaysIncome?.transactions?.slice(0, 4) ||
+                  []
+                }
+                totalIncome={dashboardData?.totalIncome || 0}
+              />
 
-          <RecentIncome
-            transactions={dashboardData?.last60DaysIncome?.transactions}
-            onSeeMore={() => navigate("/income")}
-          />
-        </div>
+              <RecentIncome
+                transactions={
+                  dashboardData?.last60DaysIncome?.transactions || []
+                }
+                onSeeMore={() => navigate("/income")}
+              />
+            </div>
+          </>
+        ) : (
+          <div className="flex flex-col items-center justify-center mt-20">
+            <img
+              src={noData}
+              alt="No data"
+              className="w-64 h-64 mb-6 opacity-80"
+            />
+            <h2 className="text-xl font-semibold text-gray-700">
+              No Dashboard Data Available
+            </h2>
+            <p className="text-sm text-gray-500 mt-2 text-center">
+              Start by adding your first <strong>income</strong> or{" "}
+              <strong>expense</strong> to see insights here.
+            </p>
+            <div className="mt-6 flex gap-4">
+              <button
+                className="add-btn add-btn-fill"
+                onClick={() => navigate("/income")}
+              >
+                Add Income
+              </button>
+              <button
+                className="add-btn add-btn-outline"
+                onClick={() => navigate("/expense")}
+              >
+                Add Expense
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </DashboardLayout>
   );

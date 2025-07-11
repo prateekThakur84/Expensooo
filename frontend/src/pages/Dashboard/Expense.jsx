@@ -9,6 +9,8 @@ import toast from "react-hot-toast";
 import AddExpenseForm from "../../components/Expense/AddExpenseForm";
 import ExpenseList from "../../components/Expense/ExpenseList";
 import DeleteAlert from "../../components/DeleteAlert";
+import noData from "../../assets/NoData.png";
+import Loading from "../../components/Loading";
 
 const Expense = () => {
   useUserAuth();
@@ -41,6 +43,8 @@ const Expense = () => {
       setLoading(false);
     }
   };
+
+  const isExpenseEmpty = !ExpenseData || ExpenseData.length === 0;
 
   //handle add Expense
   const handleAddExpense = async (expense) => {
@@ -93,31 +97,30 @@ const Expense = () => {
     }
   };
 
-const handleDownloadExpenseDetails = async () => {
-  try {
-    const response = await axiosInstance.get(
-      API_PATHS.EXPENSE.DOWNLOAD_EXPENSE,
-      {
-        responseType: "blob",
-      }
-    );
-    console.log("downloaded data");
-    
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", "expense_details.xlsx"); 
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-    toast.success("Expense details downloaded successfully!");
-  } catch (error) {
-    console.error("Error downloading expense details: ", error);
-    toast.error("Failed to download expense details. Please try again!");
-  }
-};
+  const handleDownloadExpenseDetails = async () => {
+    try {
+      const response = await axiosInstance.get(
+        API_PATHS.EXPENSE.DOWNLOAD_EXPENSE,
+        {
+          responseType: "blob",
+        }
+      );
+      console.log("downloaded data");
 
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "expense_details.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      toast.success("Expense details downloaded successfully!");
+    } catch (error) {
+      console.error("Error downloading expense details: ", error);
+      toast.error("Failed to download expense details. Please try again!");
+    }
+  };
 
   useEffect(() => {
     fetchExpenseDetails();
@@ -128,21 +131,44 @@ const handleDownloadExpenseDetails = async () => {
   return (
     <DashboardLayout activeMenu="Expense">
       <div className="my-5 mx-auto ">
-        <div className="grid grid-cols-1 gap-6">
-          <div>
+        {loading ? (
+          <Loading/>
+        ) : isExpenseEmpty ? (
+          <div className="flex flex-col items-center justify-center mt-20">
+            <img
+              src={noData}
+              alt="No data"
+              className="w-64 h-64 mb-6 opacity-80"
+            />
+            <h2 className="text-xl font-semibold text-gray-700">
+              No Expense Records Found
+            </h2>
+            <p className="text-sm text-gray-500 mt-2 text-center">
+              Add your first <strong>expense</strong> to start tracking your
+              spending.
+            </p>
+            <button
+              className="mt-6 add-btn add-btn-fill"
+              onClick={() => setOpenAddExpenseModel(true)}
+            >
+              Add Expense
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-6">
             <ExpenseOverview
               transactions={ExpenseData}
               onExpenseIncome={() => setOpenAddExpenseModel(true)}
             />
+            <ExpenseList
+              transactions={ExpenseData}
+              onDelete={(id) => {
+                setOpenDeleteAlert({ show: true, data: id });
+              }}
+              onDownload={handleDownloadExpenseDetails}
+            />
           </div>
-          <ExpenseList
-            transactions={ExpenseData}
-            onDelete={(id) => {
-              setOpenDeleteAlert({ show: true, data: id });
-            }}
-            onDownload={handleDownloadExpenseDetails}
-          />
-        </div>
+        )}
 
         <Modal
           isOpen={openAddExpenseModel}

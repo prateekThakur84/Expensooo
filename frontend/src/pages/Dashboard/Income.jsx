@@ -9,6 +9,8 @@ import toast from "react-hot-toast";
 import IncomeList from "../../components/Income/IncomeList";
 import DeleteAlert from "../../components/DeleteAlert";
 import { useUserAuth } from "../../hooks/useUserAuth";
+import noData from "../../assets/NoData.png";
+import Loading from "../../components/Loading";
 
 const Income = ({ transactions, onAddIncome }) => {
   useUserAuth();
@@ -38,6 +40,8 @@ const Income = ({ transactions, onAddIncome }) => {
       setLoading(false);
     }
   };
+
+  const isIncomeEmpty = !incomeData || incomeData.length === 0;
 
   //handle add income
   const handleAddIncome = async (income) => {
@@ -127,29 +131,49 @@ const Income = ({ transactions, onAddIncome }) => {
   }, []);
   return (
     <DashboardLayout activeMenu="Income">
-      <div className="my-5 mx-auto ">
-        <div className="grid grid-cols-1 gap-6">
-          <div className="">
+      <div className="my-5 mx-auto">
+        {loading ? (
+          <Loading/>
+        ) : isIncomeEmpty ? (
+          <div className="flex flex-col items-center justify-center mt-20">
+            <img
+              src={noData}
+              alt="No data"
+              className="w-64 h-64 mb-6 opacity-80"
+            />
+            <h2 className="text-xl font-semibold text-gray-700">
+              No Income Records Available
+            </h2>
+            <p className="text-sm text-gray-500 mt-2 text-center">
+              Add your income sources to keep track of your earnings.
+            </p>
+            <button
+              className="mt-6 add-btn add-btn-fill"
+              onClick={() => setOpenAddIncomeModel(true)}
+            >
+              Add Income
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-6">
             <IncomeOverview
               transactions={incomeData}
               onAddIncome={() => setOpenAddIncomeModel(true)}
             />
-          </div>
 
-          <IncomeList
-            transactions={incomeData}
-            onDelete={(id) => {
-              setOpenDeleteAlert({ show: true, data: id });
-            }}
-            onDownload={handleDownloadIncomeDetails}
-          />
-        </div>
+            <IncomeList
+              transactions={incomeData}
+              onDelete={(id) => {
+                setOpenDeleteAlert({ show: true, data: id });
+              }}
+              onDownload={handleDownloadIncomeDetails}
+            />
+          </div>
+        )}
 
         <Modal
           isOpen={OpenAddIncomeModel}
-          onClose={() => {
-            setOpenAddIncomeModel(false);
-          }}
+          onClose={() => setOpenAddIncomeModel(false)}
           title="Add Income"
         >
           <AddIncomeForm onAddIncome={handleAddIncome} />
@@ -157,16 +181,11 @@ const Income = ({ transactions, onAddIncome }) => {
 
         <Modal
           isOpen={openDeleteAlert.show}
-          onClose={() =>
-            setOpenDeleteAlert({
-              show: false,
-              data: null,
-            })
-          }
+          onClose={() => setOpenDeleteAlert({ show: false, data: null })}
           title="Delete Income"
         >
           <DeleteAlert
-            content="Are you sure you want to delete this income ?"
+            content="Are you sure you want to delete this income?"
             onDelete={() => deleteIncome(openDeleteAlert.data)}
           />
         </Modal>

@@ -19,7 +19,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!validateEmail(email)) {
+    if (!validateEmail( email.trim())) {
       setError("Please Enter a valid email");
       return;
     }
@@ -65,7 +65,7 @@ const Login = () => {
           <Input
             value={email}
             onChange={({ target }) => setEmail(target.value)}
-            lable="email address"
+            label="email address"
             placeholder="hello@gmail.com"
             type="text"
           />
@@ -73,7 +73,7 @@ const Login = () => {
           <Input
             value={password}
             onChange={({ target }) => setPassword(target.value)}
-            lable="password"
+            label="password"
             placeholder="Min 8 Characters "
             type="password"
           />
