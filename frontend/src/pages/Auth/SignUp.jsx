@@ -8,6 +8,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import uploadImage from "../../utils/uploadImage";
 import { UserContext } from  "../../context/userContext";
+import Loading from "../../components/Loading";
 
 
 const SignUp = () => {
@@ -16,13 +17,17 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading,setLoading]= useState(false);
 
   const { updateUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
+
+
     e.preventDefault();
+    setLoading(true);
 
     let profileImageUrl = "";
 
@@ -117,7 +122,7 @@ const SignUp = () => {
           {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
 
           <button type="submit" className="btn-primary">
-            Sign Up
+            {loading ? "Submitted..." : "Sign In"}
           </button>
 
           <p className="text-[13px] text-slate-800 mt-3">
