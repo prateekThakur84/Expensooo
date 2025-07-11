@@ -25,15 +25,18 @@ const Login = () => {
 
     if (!validateEmail(email.trim())) {
       setError("Please Enter a valid email");
+      setLoading(false);
       return;
     }
-
+    
     if (!password) {
       setError("Please enter the password");
+      setLoading(false);
       return;
     }
-
+    
     setError("");
+    setLoading(false);
 
     try {
       const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {

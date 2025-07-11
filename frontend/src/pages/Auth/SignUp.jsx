@@ -36,7 +36,7 @@ const SignUp = () => {
       return;
     }
 
-    if (!validateEmail(email)) {
+    if (!validateEmail(email.toLowerCase().trim())) {
       setError("Please enter a valid email");
       return;
     }
