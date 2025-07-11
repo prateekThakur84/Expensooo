@@ -11,7 +11,7 @@ const Last30DaysExpenses = ({data}) => {
         // console.log(data);
         
         const result = prepareExpensesBarChartData(data);
-        console.log(result); 
+        // console.log(result); 
         // for debugging
         
         setChartData(result);

@@ -1,5 +1,5 @@
 import React from "react";
-import { LuTrendingDown, LuTrendingUp, LuUtensils } from "react-icons/lu";
+import { LuTrash2, LuTrendingDown, LuTrendingUp, LuUtensils } from "react-icons/lu";
 
 const TransactionInfoCard = ({
   title,
@@ -8,6 +8,7 @@ const TransactionInfoCard = ({
   amount,
   type,
   hideDeleteBtn,
+  onDelete
 }) => {
   const getAmountStyles = () =>
     type == "income" ? "bg-green-50 text-green-500" : "bg-red-50 text-red-500";

@@ -11,7 +11,7 @@ const IncomeOverview = ({ transactions, onAddIncome }) => {
 
   useEffect(() => {
     const result = prepareIncomeBarChartData(transactions);
-    console.log(result);
+    // console.log(result);
     
     setChartData(result);
 
