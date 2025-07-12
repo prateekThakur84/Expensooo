@@ -9,7 +9,7 @@ From **interactive charts** and **Excel exports** to **receipt uploads**, Expens
 
 ## 🌐 Live Demo
 
-🔗 **Frontend (Vercel)**: [https://expensooo.vercel.app/dashboard](https://expensooo.vercel.app/dashboard)  
+🔗 **Frontend (Vercel)**: [https://expensooo.vercel.app/dashboard](https://expensooo.vercel.app)  
 📁 **GitHub Repo**: [https://github.com/prateekThakur84/expensooo](https://github.com/prateekThakur84/expensooo)
 
 ---
