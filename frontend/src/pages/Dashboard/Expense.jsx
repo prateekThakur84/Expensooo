@@ -105,7 +105,7 @@ const Expense = () => {
           responseType: "blob",
         }
       );
-      console.log("downloaded data");
+      // console.log("downloaded data");
 
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");

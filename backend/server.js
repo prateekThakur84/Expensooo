@@ -1,19 +1,16 @@
 const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
-// const path = require("path");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const expenseRoutes = require("./routes/expenseRoutes");
 const incomeRoutes = require("./routes/incomeRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
+const expensoAiRoutes = require("./routes/expensoAiRoutes");
 
 dotenv.config();
-
 const app = express();
 
-// Use double underscore here
-// const __dirname = path.resolve();
 
 // CORS middleware
 app.use(
@@ -34,12 +31,8 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/income", incomeRoutes);
 app.use("/api/v1/expense", expenseRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
+app.use("/api/v1/expensoAI", expensoAiRoutes);
 
-
-// app.use(express.static(path.join(__dirname, "/frontend/dist")));
-// app.get("*", (_, res) => {
-//   res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
-// });
 
 
 const PORT = process.env.PORT || 5000;

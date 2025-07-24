@@ -1,4 +1,6 @@
 export const BASE_URL = "https://expenso-en1y.onrender.com";
+// export const BASE_URL = "http://localhost:8000";
+
 
 export const API_PATHS = {
     AUTH: {
@@ -24,4 +26,8 @@ export const API_PATHS = {
     IMAGE:{
         UPLOAD_IMAGE: "/api/v1/auth/upload-image",
     },
+    EXPENSO_AI: {
+  CHAT: "/api/v1/expensoAI",
+},
+
 };

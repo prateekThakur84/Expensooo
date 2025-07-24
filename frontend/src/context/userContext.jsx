@@ -1,19 +1,26 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
+
 export const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-//   const [loading, setLoading] = React.useState(true);
+
+  // Load user from localStorage on initial load
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const updateUser = (userData) => {
     setUser(userData);
-  }
-
-  // Function to clear user data for logout
-
+    localStorage.setItem("user", JSON.stringify(userData)); // Save to localStorage
+  };
 
   const clearUser = () => {
     setUser(null);
+    localStorage.removeItem("user"); // Remove from localStorage
   };
 
   return (
@@ -21,6 +28,6 @@ const UserProvider = ({ children }) => {
       {children}
     </UserContext.Provider>
   );
-}
+};
 
 export default UserProvider;
