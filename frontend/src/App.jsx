@@ -20,31 +20,31 @@ import AIChatBot from "./pages/AIChatBot/AIChatBot";
 
 const App = () => {
   return (
-    <UserProvider>
-      <div>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Root />} />
-            <Route path="/LandingPage" exact element={<LandingPage />} />
-            <Route path="/login" exact element={<Login />} />
-            <Route path="/signup" exact element={<SignUp />} />
-            <Route path="/dashboard" exact element={<Home />} />
-            <Route path="/income" exact element={<Income />} />
-            <Route path="/expense" exact element={<Expense />} />
-            <Route path="/ai" exact element={<AIChatBot />} />
-          </Routes>
-        </Router>
-      </div>
+      <UserProvider>
+        <div>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Root />} />
+              <Route path="/LandingPage" exact element={<LandingPage />} />
+              <Route path="/login" exact element={<Login />} />
+              <Route path="/signup" exact element={<SignUp />} />
+              <Route path="/dashboard" exact element={<Home />} />
+              <Route path="/income" exact element={<Income />} />
+              <Route path="/expense" exact element={<Expense />} />
+              <Route path="/ai" exact element={<AIChatBot />} />
+            </Routes>
+          </Router>
+        </div>
 
-      <Toaster
-        toastOptions={{
-          className: "",
-          style: {
-            fontSize: "13px",
-          },
-        }}
-      />
-    </UserProvider>
+        <Toaster
+          toastOptions={{
+            className: "",
+            style: {
+              fontSize: "13px",
+            },
+          }}
+        />
+      </UserProvider>
   );
 };
 
