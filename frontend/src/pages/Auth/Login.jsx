@@ -8,6 +8,7 @@ import { API_PATHS } from "../../utils/apiPaths";
 import { UserContext } from "../../context/userContext";
 import DemoCredentials from "../../components/DemoCredentials";
 import Loading from "../../components/Loading";
+import Spinner from "../../components/Spinner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -91,9 +92,13 @@ const Login = () => {
 
               {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
 
-              <button type="submit" className="btn-primary">
-                LOGIN
-              </button>
+              <button
+              type="submit"
+              className="btn-primary w-full flex justify-center items-center disabled:opacity-75 disabled:cursor-not-allowed"
+              disabled={loading}
+            >
+              {loading ? <Spinner /> : "LOGIN"}
+            </button>
 
               <p className="text-[13px] text-slate-800 mt-3">
                 Don't have an account?{" "}

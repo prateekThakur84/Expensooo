@@ -15,17 +15,20 @@ import Home from "./pages/Dashboard/Home";
 import Income from "./pages/Dashboard/Income";
 import Expense from "./pages/Dashboard/Expense";
 import UserProvider from "./context/userContext";
+import {TransactionProvider} from "./context/TransactionContext";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import AIChatBot from "./pages/AIChatBot/AIChatBot";
 
 const App = () => {
   return (
+    <TransactionProvider>
+
       <UserProvider>
         <div>
           <Router>
             <Routes>
               <Route path="/" element={<Root />} />
-              <Route path="/LandingPage" exact element={<LandingPage />} />
+              <Route path="/about" exact element={<LandingPage />} />
               <Route path="/login" exact element={<Login />} />
               <Route path="/signup" exact element={<SignUp />} />
               <Route path="/dashboard" exact element={<Home />} />
@@ -45,6 +48,7 @@ const App = () => {
           }}
         />
       </UserProvider>
+    </TransactionProvider>
   );
 };
 

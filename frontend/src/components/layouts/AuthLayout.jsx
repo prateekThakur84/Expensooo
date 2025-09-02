@@ -8,7 +8,7 @@ const AuthLayout = ({ children }) => {
   return (
     <div className="flex">
       <div className="w-screen h-screen md:w-[60vw] px-12 pt-8 pb-12    ">
-        <div className="flex items-center gap-4" onClick={()=>navigate("/LandingPage")}>
+        <div className="flex items-center gap-4" onClick={()=>navigate("/about")}>
           <FaWallet className="text-4xl text-primary" />
           <h2 className="text-4xl font-medium text-black" >Expenso</h2>
         </div>

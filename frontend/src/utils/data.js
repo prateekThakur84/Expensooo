@@ -26,6 +26,12 @@ export const SIDE_MENU_DATA = [
         path : "/ai",
     },
     {
+        id: "05",
+        label : "About Us",
+        icon : LuWalletMinimal,
+        path : "/about",
+    },
+    {
         id: "06",
         label : "Logout",
         icon : LuLogOut,

@@ -22,7 +22,7 @@ const Navbar = ({ activeMenu }) => {
       <div className="flex items-center justify-between w-full px-4 cursor-pointer">
         <div
           className="flex items-center gap-2"
-          onClick={() => navigate("/LandingPage")}
+          onClick={() => navigate("/dashboard")}
         >
           <FaWallet className="text-2xl text-primary" />
           <h1 className="text-2xl font-semibold">Expenso</h1>
