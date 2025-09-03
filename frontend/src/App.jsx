@@ -62,6 +62,6 @@ const Root = () => {
   return isAuthenticated ? (
     <Navigate to="/dashboard" />
   ) : (
-    <Navigate to="/LandingPage" />
+    <Navigate to="/about" />
   );
 };
