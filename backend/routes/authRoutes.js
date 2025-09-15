@@ -1,36 +1,34 @@
 const express = require('express');
-const { registerUser, loginUser, getUserInfo } = require('../controllers/authController'); 
+const { 
+  registerUser, 
+  loginUser, 
+  getUserInfo,
+  verifyEmailOTP,
+  resendVerificationOTP
+} = require('../controllers/authController'); 
 const { protect } = require('../middlewares/authMiddleware'); 
-// const upload = require('../middlewares/uploadMiddleware');
 const upload = require("../utils/cloudinary");
 
 const router = express.Router();
 
+// Auth routes
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.get('/getUser', protect, getUserInfo);
 
-// router.post("/upload-image", upload.single("image"), (req, res) => {
-//     if (!req.file) {
-//         return res.status(400).json({ message: "No file uploaded" });
-//     }
-    
-//     const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-    
-//     res.status(200).json({ imageUrl });
-//     }
+// Email verification routes
+router.post('/verify-email', verifyEmailOTP);
+router.post('/resend-verification', resendVerificationOTP);
 
-// )
-
+// Image upload (unchanged)
 router.post("/upload-image", upload.single("image"), (req, res) => {
   if (!req.file || !req.file.path) {
     return res.status(400).json({ message: "No file uploaded" });
   }
 
   res.status(200).json({
-    imageUrl: req.file.path, // Cloudinary URL
+    imageUrl: req.file.path,
   });
 });
-
  
-module.exports = router; 
+module.exports = router;

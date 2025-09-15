@@ -6,19 +6,38 @@ import { useNavigate } from "react-router-dom";
 const AuthLayout = ({ children }) => {
   const navigate = useNavigate();
   return (
-    <div className="flex">
-      <div className="w-screen h-screen md:w-[60vw] px-12 pt-8 pb-12    ">
-        <div className="flex items-center gap-4" onClick={()=>navigate("/about")}>
-          <FaWallet className="text-4xl text-primary" />
-          <h2 className="text-4xl font-medium text-black" >Expenso</h2>
+    <div className="flex flex-col md:flex-row h-screen">
+      {/* Left Section */}
+      <div className="flex flex-col justify-center items-center w-full md:w-3/5 px-8 sm:px-12 py-10 bg-white">
+        {/* Logo + Title */}
+        <div
+          className="flex items-center gap-4 mb-12 cursor-pointer select-none"
+          onClick={() => navigate("/about")}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === "Enter" && navigate("/about")}
+          aria-label="Navigate to About page"
+        >
+          <FaWallet className="text-5xl text-primary" />
+          <h2 className="text-4xl font-semibold text-black tracking-wide">Expenso</h2>
         </div>
-        {children}
+
+        {/* Centered children content */}
+        <div className="w-full max-w-lg">{children}</div>
       </div>
 
-      <div className="hidden md:block w-[40vw] h-screen bg-violet-50 bg-auth-bg-img bg-cover bg-no-repeat bg-center overflow-hidden p-8 relative ">
+      {/* Right Section (Image) */}
+      <div className="hidden md:block w-2/5 h-screen bg-violet-50 relative">
+        <div
+          className="absolute inset-0 bg-auth-bg-img bg-cover bg-center bg-no-repeat opacity-40"
+          aria-hidden="true"
+        />
         <img
           src={CARD_2}
-          className="w-64 lg:w-[90%] absolute bottom-1 shadow-lg shadow-blur-400/15"
+          className="w-64 lg:w-4/5 absolute bottom-8 right-8 shadow-xl rounded-2xl"
+          alt="auth card"
+          loading="lazy"
+          draggable={false}
         />
       </div>
     </div>

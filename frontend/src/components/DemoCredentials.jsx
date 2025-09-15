@@ -31,11 +31,11 @@ const DemoCredentials = () => {
         <div className="mt-4 text-sm text-gray-700 space-y-2 animate-fade-in">
           <p className="flex items-center gap-2">
             <FaUser className="text-primary" />{" "}
-            <span className="font-semibold">Email:</span> gwen@gmail.com
+            <span className="font-semibold">Email:</span> prateek84thakur.com
           </p>
           <p className="flex items-center gap-2">
             <FaKey className="text-primary" />{" "}
-            <span className="font-semibold">Password:</span> Gwen@123
+            <span className="font-semibold">Password:</span> isagi098
           </p>
         </div>
       )}

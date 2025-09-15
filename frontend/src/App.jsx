@@ -1,12 +1,10 @@
 import React from "react";
-
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
-
 import { Toaster } from "react-hot-toast";
 
 import Login from "./pages/Auth/Login";
@@ -18,11 +16,11 @@ import UserProvider from "./context/userContext";
 import {TransactionProvider} from "./context/TransactionContext";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import AIChatBot from "./pages/AIChatBot/AIChatBot";
+// import EmailVerification from "./components/Auth/EmailVerification";
 
 const App = () => {
   return (
     <TransactionProvider>
-
       <UserProvider>
         <div>
           <Router>
@@ -35,6 +33,7 @@ const App = () => {
               <Route path="/income" exact element={<Income />} />
               <Route path="/expense" exact element={<Expense />} />
               <Route path="/ai" exact element={<AIChatBot />} />
+              {/* <Route path="/test" exact element={<EmailVerification />} /> */}
             </Routes>
           </Router>
         </div>
@@ -55,10 +54,7 @@ const App = () => {
 export default App;
 
 const Root = () => {
-  //check if token exists in localStorage
   const isAuthenticated = !!localStorage.getItem("token");
-
-  //Redirected to dashboard if authenticated, else to login
   return isAuthenticated ? (
     <Navigate to="/dashboard" />
   ) : (
